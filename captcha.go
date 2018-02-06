@@ -153,19 +153,7 @@ func VerifyString(id string, digits string) bool {
 	if digits == "" {
 		return false
 	}
-	ns := make([]byte, len(digits))
-	for i := range ns {
-		d := digits[i]
-		switch {
-		case '0' <= d && d <= '9':
-			ns[i] = d - '0'
-		case d == ' ' || d == ',':
-			// ignore
-		default:
-			return false
-		}
-	}
-	return Verify(id, ns)
+	return Verify(id, DigitsBytes(digits))
 }
 
 // The function deletes the captcha with the given id from the internal

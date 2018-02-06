@@ -60,6 +60,22 @@ func RandomDigits(length int) []byte {
 	return randomBytesMod(length, 10)
 }
 
+func DigitsBytes(digits string) []byte {
+	ns := make([]byte, len(digits))
+	for i := range ns {
+		d := digits[i]
+		switch {
+		case '0' <= d && d <= '9':
+			ns[i] = d - '0'
+		case d == ' ' || d == ',':
+			// ignore
+		default:
+			// ignore
+		}
+	}
+	return ns
+}
+
 // randomBytes returns a byte slice of the given length read from CSPRNG.
 func randomBytes(length int) (b []byte) {
 	b = make([]byte, length)
