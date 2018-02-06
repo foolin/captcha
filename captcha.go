@@ -128,9 +128,6 @@ func WriteAudio(w io.Writer, id string, lang string) error {
 
 // Verify returns true if the given digits are the ones that were used to
 // create the given captcha id.
-//
-// If verify pass, the function deletes the captcha with the given id from the internal
-// storage, so that the same captcha can't be verified anymore.
 func Verify(id string, digits []byte) bool {
 	if digits == nil || len(digits) == 0 {
 		return false
@@ -139,11 +136,7 @@ func Verify(id string, digits []byte) bool {
 	if reald == nil {
 		return false
 	}
-	ret := bytes.Equal(digits, reald)
-	if ret{
-		globalStore.Del(id)
-	}
-	return ret
+	return bytes.Equal(digits, reald)
 }
 
 // VerifyString is like Verify, but accepts a string of digits.  It removes
