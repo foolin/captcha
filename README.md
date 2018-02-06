@@ -1,6 +1,10 @@
+Fork intro
+--------
+The library for from github.com/dchest/captcha, and change for Ajax request.
+When post ajax request, i need the captcha id not delete, so fork and change.
+
 Package captcha
 =====================
-
 	import "github.com/dchest/captcha"
 
 Package captcha implements generation and verification of image and audio

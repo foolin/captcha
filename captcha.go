@@ -95,7 +95,7 @@ func NewLen(length int) (id string) {
 // refreshed to show the new captcha representation (WriteImage and WriteAudio
 // will write the new one).
 func Reload(id string) bool {
-	old := globalStore.Get(id, false)
+	old := globalStore.Get(id)
 	if old == nil {
 		return false
 	}
@@ -106,7 +106,7 @@ func Reload(id string) bool {
 // WriteImage writes PNG-encoded image representation of the captcha with the
 // given id. The image will have the given width and height.
 func WriteImage(w io.Writer, id string, width, height int) error {
-	d := globalStore.Get(id, false)
+	d := globalStore.Get(id)
 	if d == nil {
 		return ErrNotFound
 	}
@@ -118,7 +118,7 @@ func WriteImage(w io.Writer, id string, width, height int) error {
 // given id and the given language. If there are no sounds for the given
 // language, English is used.
 func WriteAudio(w io.Writer, id string, lang string) error {
-	d := globalStore.Get(id, false)
+	d := globalStore.Get(id)
 	if d == nil {
 		return ErrNotFound
 	}
@@ -129,17 +129,21 @@ func WriteAudio(w io.Writer, id string, lang string) error {
 // Verify returns true if the given digits are the ones that were used to
 // create the given captcha id.
 //
-// The function deletes the captcha with the given id from the internal
+// If verify pass, the function deletes the captcha with the given id from the internal
 // storage, so that the same captcha can't be verified anymore.
 func Verify(id string, digits []byte) bool {
 	if digits == nil || len(digits) == 0 {
 		return false
 	}
-	reald := globalStore.Get(id, true)
+	reald := globalStore.Get(id)
 	if reald == nil {
 		return false
 	}
-	return bytes.Equal(digits, reald)
+	ret := bytes.Equal(digits, reald)
+	if ret{
+		globalStore.Del(id)
+	}
+	return ret
 }
 
 // VerifyString is like Verify, but accepts a string of digits.  It removes
@@ -162,4 +166,10 @@ func VerifyString(id string, digits string) bool {
 		}
 	}
 	return Verify(id, ns)
+}
+
+// The function deletes the captcha with the given id from the internal
+// storage, so that the same captcha can't be verified anymore.
+func DelStore(id string) {
+	globalStore.Del(id)
 }
