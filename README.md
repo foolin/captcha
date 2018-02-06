@@ -1,6 +1,6 @@
-Fork intro
+Why fork?
 --------
-The library fork from github.com/dchest/captcha, 
+The library fork from [github.com/dchest/captcha](github.com/dchest/captcha), 
 when post verify captcha with AJAX, i want not delete the captcha id, so fork and change.
 
 Install
@@ -10,9 +10,16 @@ Install
 go get github.com/foolin/captcha
 ```
 
+Usage
+--------
+
+```go
+import "github.com/dchest/captcha"
+```
+
 Package captcha
 =====================
-	import "github.com/foolin/captcha"
+	import "github.com/dchest/captcha"
 
 Package captcha implements generation and verification of image and audio
 CAPTCHAs.
