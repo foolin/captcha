@@ -14,7 +14,7 @@ Usage
 --------
 
 ```go
-import "github.com/dchest/captcha"
+import "github.com/foolin/captcha"
 ```
 
 Package captcha
