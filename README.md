@@ -1,7 +1,7 @@
 Fork intro
 --------
-The library for from github.com/dchest/captcha, and change for Ajax request.
-When post with ajax request, i need not delete the captcha id when verify, so fork and change.
+The library fork from github.com/dchest/captcha, 
+when post verify captcha with AJAX, i want not delete the captcha id, so fork and change.
 
 Install
 --------
