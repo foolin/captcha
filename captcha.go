@@ -136,7 +136,11 @@ func Verify(id string, digits []byte) bool {
 	if reald == nil {
 		return false
 	}
-	return bytes.Equal(digits, reald)
+	isOk := bytes.Equal(digits, reald)
+	if isOk{
+		Reload(id)
+	}
+	return isOk
 }
 
 // VerifyString is like Verify, but accepts a string of digits.  It removes
