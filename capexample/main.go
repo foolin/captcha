@@ -34,7 +34,7 @@ func showFormHandler(w http.ResponseWriter, r *http.Request) {
 
 func processFormHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if !ce.VerifyString(r.FormValue("captchaId"), r.FormValue("captchaSolution")) {
+	if !ce.VerifyStringOnce(r.FormValue("captchaId"), r.FormValue("captchaSolution")) {
 		io.WriteString(w, "Wrong captcha solution! No robots allowed!\n")
 	} else {
 		io.WriteString(w, "Great job, human! You solved the captcha.\n")
