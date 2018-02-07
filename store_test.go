@@ -14,7 +14,7 @@ func TestSetGet(t *testing.T) {
 	id := "captcha id"
 	d := RandomDigits(10)
 	s.Set(id, d)
-	d2 := s.Get(id, false)
+	d2 := s.Get(id)
 	if d2 == nil || !bytes.Equal(d, d2) {
 		t.Errorf("saved %v, getDigits returned got %v", d, d2)
 	}
@@ -25,11 +25,12 @@ func TestGetClear(t *testing.T) {
 	id := "captcha id"
 	d := RandomDigits(10)
 	s.Set(id, d)
-	d2 := s.Get(id, true)
+	d2 := s.Get(id)
 	if d2 == nil || !bytes.Equal(d, d2) {
 		t.Errorf("saved %v, getDigitsClear returned got %v", d, d2)
 	}
-	d2 = s.Get(id, false)
+	s.Del(id)
+	d2 = s.Get(id)
 	if d2 != nil {
 		t.Errorf("getDigitClear didn't clear (%q=%v)", id, d2)
 	}
@@ -50,7 +51,7 @@ func TestCollect(t *testing.T) {
 	// Must be already collected
 	nc := 0
 	for i := range ids {
-		d2 := s.Get(ids[i], false)
+		d2 := s.Get(ids[i])
 		if d2 != nil {
 			t.Errorf("%d: not collected", i)
 			nc++

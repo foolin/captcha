@@ -15,6 +15,7 @@ import (
 )
 
 var formTemplate = template.Must(template.New("example").Parse(formTemplateSrc))
+var ce = captcha.Default()
 
 func showFormHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
@@ -24,7 +25,7 @@ func showFormHandler(w http.ResponseWriter, r *http.Request) {
 	d := struct {
 		CaptchaId string
 	}{
-		captcha.New(),
+		ce.New(),
 	}
 	if err := formTemplate.Execute(w, &d); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -33,7 +34,7 @@ func showFormHandler(w http.ResponseWriter, r *http.Request) {
 
 func processFormHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if !captcha.VerifyString(r.FormValue("captchaId"), r.FormValue("captchaSolution")) {
+	if !ce.VerifyString(r.FormValue("captchaId"), r.FormValue("captchaSolution")) {
 		io.WriteString(w, "Wrong captcha solution! No robots allowed!\n")
 	} else {
 		io.WriteString(w, "Great job, human! You solved the captcha.\n")
