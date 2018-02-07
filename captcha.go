@@ -160,7 +160,7 @@ func (c *CaptchaEngine) VerifyOnce(id string, digits []byte) bool {
 	if reald == nil {
 		return false
 	}
-	c.Del(id)
+	c.Delete(id)
 	return bytes.Equal(digits, reald)
 }
 
@@ -176,6 +176,6 @@ func (c *CaptchaEngine) VerifyStringOnce(id string, digits string) bool {
 
 // The function deletes the captcha with the given id from the internal
 // storage, so that the same captcha can't be verified anymore.
-func (c *CaptchaEngine) Del(id string) {
+func (c *CaptchaEngine) Delete(id string) {
 	c.Store.Del(id)
 }
