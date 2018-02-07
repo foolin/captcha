@@ -150,6 +150,30 @@ func (c *CaptchaEngine) VerifyString(id string, digits string) bool {
 	return c.Verify(id, DigitsBytes(digits))
 }
 
+// Verify returns true if the given digits are the ones that were used to
+// create the given captcha id.
+func (c *CaptchaEngine) VerifyOnce(id string, digits []byte) bool {
+	if digits == nil || len(digits) == 0 {
+		return false
+	}
+	reald := c.Store.Get(id)
+	if reald == nil {
+		return false
+	}
+	c.DelStore(id)
+	return bytes.Equal(digits, reald)
+}
+
+// VerifyString is like Verify, but accepts a string of digits.  It removes
+// spaces and commas from the string, but any other characters, apart from
+// digits and listed above, will cause the function to return false.
+func (c *CaptchaEngine) VerifyStringOnce(id string, digits string) bool {
+	if digits == "" {
+		return false
+	}
+	return c.VerifyOnce(id, DigitsBytes(digits))
+}
+
 // The function deletes the captcha with the given id from the internal
 // storage, so that the same captcha can't be verified anymore.
 func (c *CaptchaEngine) DelStore(id string) {
